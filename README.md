@@ -4,15 +4,20 @@ Read-only parser for Azure AD B2C custom policies (IEF) -> normalized JSON. MIT-
 
 ## Status
 
-Early public scaffold.
+Early functional parser v0.1.0.
 
-This repository currently contains the project structure, packaging metadata, test scaffolding and CI only. Product logic will be added in later milestones.
+This repository contains a minimal read-only parser for Azure AD B2C Identity Experience Framework custom policy XML files.
 
 ## What this project is for
 
-ief-parser is intended to become a read-only parser for Azure AD B2C Identity Experience Framework custom policy XML files.
+ief-parser normalizes selected Azure AD B2C custom policy structures into JSON so identity teams can inspect, document and reason about B2C legacy tenants before migration or modernization work.
 
-The initial goal is to normalize public/custom policy structure into JSON so identity teams can inspect, document and reason about B2C legacy tenants before migration or modernization work.
+Current v0.1.0 scope:
+
+- TrustFrameworkPolicy metadata
+- ClaimsSchema / ClaimType
+- ClaimsProviders / TechnicalProfile IDs
+- UserJourneys / OrchestrationStep references
 
 ## What this project is not
 
@@ -21,26 +26,31 @@ The initial goal is to normalize public/custom policy structure into JSON so ide
 - Not a production-ready security product.
 - Not connected to any customer tenant.
 - Not based on private customer data.
+- Not a semantic translator from IEF to External ID.
 
-## Planned direction
-
-- TrustFrameworkPolicy metadata
-- ClaimsSchema
-- ClaimsProviders
-- TechnicalProfiles
-- UserJourneys
-- RelyingParty definitions
-
-## Development
+## Example
 
 Install dependencies:
 
     python -m pip install -e ".[dev]"
 
+Parse a sample policy:
+
+    python -m ief_parser parse tests/fixtures/local_accounts.xml --output policy.json
+
 Run checks:
 
-    ruff check .
-    pytest
+    python -m ruff check .
+    python -m pytest
+
+## Normalized JSON shape
+
+The parser returns:
+
+- policy: policyId and tenantId
+- claims: id, type and displayName
+- claimsProviders: id, displayName and technicalProfiles
+- userJourneys: id and orchestrationSteps
 
 ## License
 
