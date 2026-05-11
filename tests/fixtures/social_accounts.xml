@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TrustFrameworkPolicy xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06" PolicyId="B2C_1A_SocialAccounts" TenantId="contoso.onmicrosoft.com">
+  <BuildingBlocks>
+    <ClaimsSchema>
+      <ClaimType Id="issuerUserId">
+        <DisplayName>Issuer User ID</DisplayName>
+        <DataType>string</DataType>
+      </ClaimType>
+      <ClaimType Id="identityProvider">
+        <DisplayName>Identity Provider</DisplayName>
+        <DataType>string</DataType>
+      </ClaimType>
+    </ClaimsSchema>
+  </BuildingBlocks>
+  <ClaimsProviders>
+    <ClaimsProvider>
+      <Domain>google.com</Domain>
+      <DisplayName>Google</DisplayName>
+      <TechnicalProfiles>
+        <TechnicalProfile Id="Google-OAUTH" />
+      </TechnicalProfiles>
+    </ClaimsProvider>
+  </ClaimsProviders>
+  <UserJourneys>
+    <UserJourney Id="SocialSignIn">
+      <OrchestrationSteps>
+        <OrchestrationStep Order="1" Type="ClaimsExchange">
+          <ClaimsExchanges>
+            <ClaimsExchange Id="GoogleExchange" TechnicalProfileReferenceId="Google-OAUTH" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+      </OrchestrationSteps>
+    </UserJourney>
+  </UserJourneys>
+</TrustFrameworkPolicy>
